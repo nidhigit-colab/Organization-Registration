@@ -35,7 +35,7 @@
                         echo "<script>alert('Login Successful');
                         window.location.href='dashboard.php?type=seek';</script>";
                     }else{
-                        echo "<script>alert('Something wents wrong');</script>";
+                        echo "<script>alert('Incorrect Username or Password');</script>";
                     }
                 }
             ?>
@@ -55,6 +55,8 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary mt-4 btn-lg btn-block" name="login">LOGIN</button>
+                    <a href="register.php" class="btn btn-success mt-4 btn-lg btn-block">REGISTER</a>
+
                 </form>
             </div>
             <div class="col-md-3"></div>
