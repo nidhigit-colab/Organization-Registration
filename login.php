@@ -27,7 +27,7 @@
                     //password decrypted
                     $pass = md5($pass);
                     include('config.php');
-                    $query = mysqli_query($con,"SELECT * FROM `user` WHERE `username` = '$un' AND `password` = '$pass'");
+                    $query = mysqli_query($con,"SELECT * FROM `organization` WHERE `username` = '$un' AND `password` = '$pass'");
                     $count = mysqli_num_rows($query);
                     if ($count>0) {
                         session_start();
@@ -54,6 +54,7 @@
                             </div>
                         </div>
                     </div>
+                    <a href="" class="float-right mb-5"  data-toggle="modal" data-target="#exampleModal">Forget Password?</a>
                     <button type="submit" class="btn btn-primary mt-4 btn-lg btn-block" name="login">LOGIN</button>
                     <a href="register.php" class="btn btn-success mt-4 btn-lg btn-block">REGISTER</a>
 
@@ -62,7 +63,59 @@
             <div class="col-md-3"></div>
         </div>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Forget Password?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <?php
+      if(isset($_POST['submit']))
+{
+    include('config.php');
+    $email = $_POST['email'];
+    $result = mysqli_query($con,"SELECT * FROM `organization` where `email` ='$email'");
+    $row = mysqli_fetch_assoc($result);
+	$fetch_user_id = $row['org_id'];
+	$email_id = $row['email'];
+	$password = $row['password'];
+				$to = $email_id;
+                $subject = "Password";
+                $txt = "Your password is : $password.";
+                $headers = "From: donatemore100@gmail.com" . "\r\n" .
+                "CC: '.$email_id.'";
+                mail($to,$subject,$txt,$headers);
+                echo "<script>alert('Password sent successfully!');</script>";
+			}
+				else{
+					echo 'invalid userid';
+				}
+
+?>
+      <form action="" method="post">
+      <div class="modal-body">
+       
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" placeholder="Enter email id" required>
+            </div>
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" name="submit" class="btn btn-primary">Continue</button>
+      </div>
+      </form>
     </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

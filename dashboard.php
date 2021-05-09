@@ -62,10 +62,10 @@ $type = $_GET['type'];
     }
     if ($type=="donate") {
 if (isset($_POST['submit'])) {
-    $donate = $_POST['donate'];
     $items = $_POST['items'];
+    $quantity = $_POST['quantity'];
     $description = $_POST['description'];
-    $query = mysqli_query($con,"INSERT INTO `donate`(`org_id`, `username`, `type`, `items`, `description`, `action`) VALUES ('$id', '$un', '$donate', '$items', '$description', 'donation')");
+    $query = mysqli_query($con,"INSERT INTO `donate`(`org_id`, `username`, `quantity`, `items`, `description`, `action`) VALUES ('$id', '$un', '$quantity', '$items', '$description', 'donation')");
     if ($query) {
         echo "<script>alert('Done ');</script>";
     }else{
@@ -99,13 +99,17 @@ if ($sql>0) {
                     <h2 class="text-center">Request Donate to us</h2>
                     <form action="" method="post">
                         <div class="form-group mt-4">
-                            <select class="form-control" name="donate" id="exampleFormControlSelect1">
-                                <option selected>Choose Type</option>
-                                <option value="Charity">Charity</option>
-                                <option value="Recycle">Recycle</option>
+                            <select class="form-control mb-4" name="items" id="exampleFormControlSelect1">
+                                <option selected>Choose Items</option>
+                                <?php
+                                    $query = mysqli_query($con,"SELECT * FROM `stock_master`");
+                                    while($rows = mysqli_fetch_array($query)){
+                                        echo '<option value="Charity">'.$rows['items'].'</option>';
+                                    }
+                                ?>
+                                
                             </select>
-                            <textarea name="items" id="" cols="30" rows="5" class="form-control mt-4"
-                                placeholder="Items"></textarea>
+                            <input type="number" class="form-control" name="quantity" min="1" placeholder="Quantity">
                             <textarea name="description" id="" cols="30" rows="5" class="form-control mt-4"
                                 placeholder="Description"></textarea>
                             <button type="submit" name="submit" class="btn btn-primary mt-4 btn-block">Submit</button>
@@ -121,10 +125,10 @@ if ($sql>0) {
 }
     if($type=="request"){
         if (isset($_POST['submit'])) {
-            $donate = $_POST['request'];
             $items = $_POST['items'];
+            $quantity = $_POST['quantity'];
             $description = $_POST['description'];
-            $query = mysqli_query($con,"INSERT INTO `donate`(`org_id`, `username`, `type`, `items`, `description`, `action`) VALUES ('$id', '$un', '$donate', '$items', '$description', 'request')");
+            $query = mysqli_query($con,"INSERT INTO `donate`(`org_id`, `username`, `quantity`, `items`, `description`, `action`) VALUES ('$id', '$un', '$quantity', '$items', '$description', 'request')");
             if ($query) {
                 echo "<script>alert('Done');</script>";
             }else{
@@ -158,13 +162,17 @@ if ($sql>0) {
                     <h2 class="text-center">Request accept items from us</h2>
                     <form action="" method="post">
                         <div class="form-group mt-4">
-                            <select class="form-control" name="request" id="exampleFormControlSelect1">
-                                <option selected>Choose Type</option>
-                                <option value="Charity">Charity</option>
-                                <option value="Recycle">Recycle</option>
+                        <select class="form-control mb-4" name="items" id="exampleFormControlSelect1">
+                                <option selected>Choose Items</option>
+                                <?php
+                                    $query = mysqli_query($con,"SELECT * FROM `stock_master`");
+                                    while($rows = mysqli_fetch_array($query)){
+                                        echo '<option value="Charity">'.$rows['items'].'</option>';
+                                    }
+                                ?>
+                                
                             </select>
-                            <textarea name="items" id="" cols="30" rows="5" class="form-control mt-4"
-                                placeholder="Items"></textarea>
+                            <input type="number" name="quantity" min="1" class="form-control" placeholder="Quantity">
                             <textarea name="description" id="" cols="30" rows="5" class="form-control mt-4"
                                 placeholder="Description"></textarea>
                             <button type="submit" name="submit" class="btn btn-primary mt-4 btn-block">Submit</button>

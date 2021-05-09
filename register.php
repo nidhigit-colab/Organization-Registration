@@ -51,10 +51,9 @@ if (isset($_POST['register'])) {
 			move_uploaded_file( $source_file, $dest_file )
 			or die ("Error!!");
 			if($_FILES['pdfFile']['error'] == 0) {
-                $id = "OR".rand();
                 //password encrypted
                 $pass = md5($password);
-                $sql = "INSERT INTO `user`(`org_id`, `username`, `password`, `email`, `name`, `verified`, `contact`, `address`) VALUES ('$id', '$username', '$pass', '$email','$name','$dest_file','$mob','$address')";
+                $sql = "INSERT INTO `organization`(`username`, `password`, `email`, `name`, `org_doc`, `contact`, `address`) VALUES ('$username', '$pass', '$email','$name','$dest_file','$mob','$address')";
                 $query = mysqli_query($con, $sql);
 				if ($query) {
                     echo "<script>
@@ -80,9 +79,6 @@ if (isset($_POST['register'])) {
 	}
 
 }
-
-
-
 ?>
         <form action="" method="post"  enctype="multipart/form-data">
             <div class="row mt-5">
@@ -115,16 +111,17 @@ if (isset($_POST['register'])) {
             </div>
             <div class="row mt-5">
                 <div class="col-md-6">
-                    <div class="box">
-                        <b class="label">Mobile Number</b>
-                        <input type="text" name="mob" class="form-control" autocomplete="off" placeholder="Mobile Number">
+                    <div class="box" style="padding-bottom:40px;">
+                        <b class="label">Contact Number</b>
+                        <input type="text" name="mob" class="form-control" autocomplete="off" placeholder="Contact Number">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="box">
-                        <b class="label">Upload your legal document</b>
-                        <input type="hidden" name="MAX_FILE_SIZE" value="200000" /> <input type="file"
+                        <b class="label">Upload your license</b>
+                        <input type="hidden" name="MAX_FILE_SIZE" value="10485760" /> <input type="file"
                             name="pdfFile" class="form-control" placeholder="Name" /><br />
+                            <small id="emailHelp" class="form-text text-danger ml-4" style="position:absolute;margin-top:-20px;">Upload your document only in .pdf format, file size must be upto 10MB</small>
                     </div>
                 </div>
             </div>
@@ -133,7 +130,7 @@ if (isset($_POST['register'])) {
                     <div class="box">
                         <b class="label">Address</b>
                         <textarea id="" cols="30" rows="5" name="address" class="form-control"
-                            placeholder="Address"></textarea>
+                            placeholder="Address" style="border:none;"></textarea>
                     </div>
                 </div>
             </div>
